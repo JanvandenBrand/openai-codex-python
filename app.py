@@ -4,17 +4,20 @@ import openai
 from flask import Flask, redirect, render_template, request, url_for
 
 app = Flask(__name__)
+openai.organization = "org-sMBdGIRqS8j5dJDzM2fjZsq0"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 @app.route("/", methods=("GET", "POST"))
 def index():
     if request.method == "POST":
-        animal = request.form["animal"]
+        code = request.form["code"]
         response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=generate_prompt(animal),
-            temperature=0.6,
+            model="code-davinci-002",
+            prompt=generate_prompt(code),
+            temperature=0.05,
+            max_tokens=256,
+            n=1
         )
         return redirect(url_for("index", result=response.choices[0].text))
 
@@ -22,14 +25,15 @@ def index():
     return render_template("index.html", result=result)
 
 
-def generate_prompt(animal):
-    return """Suggest three names for an animal that is a superhero.
+def generate_prompt(code):
+    return """
+Start with a comment, data or code.
+Specify the language.
+Specifying libraries will help Codex understand what you want. 
+Docstrings give better result than comments
+Providing examples gives better results
 
-Animal: Cat
-Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-Animal: Dog
-Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-Animal: {}
-Names:""".format(
-        animal.capitalize()
+code: {}
+response:""".format(
+        code.capitalize()
     )
