@@ -21,8 +21,7 @@ def index():
             frequency_penalty=0,
             presence_penalty=0,
             n=1,
-            best_of=1,
-            stop=['###']
+            best_of=1
         )
         return redirect(url_for("index", result=response.choices[0].text))
 
