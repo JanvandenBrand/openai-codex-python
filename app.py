@@ -15,10 +15,14 @@ def index():
         response = openai.Completion.create(
             model="code-davinci-002",
             prompt=generate_prompt(code),
-            temperature=0.05,
+            temperature=0,
             max_tokens=256,
             top_p=1.0,
-            stop=['#', '"""', '###']
+            frequency_penalty=0,
+            presence_penalty=0,
+            n=1,
+            best_of=1,
+            stop=['###']
         )
         return redirect(url_for("index", result=response.choices[0].text))
 

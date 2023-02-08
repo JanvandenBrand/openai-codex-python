@@ -63,4 +63,5 @@ input[type="submit"] {
 .result {
   text-align: start;
   margin-top: 40px;
+  width: auto;
 }
