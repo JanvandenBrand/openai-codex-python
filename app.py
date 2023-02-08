@@ -4,7 +4,7 @@ import openai
 from flask import Flask, redirect, render_template, request, url_for
 
 app = Flask(__name__)
-openai.organization = "org-sMBdGIRqS8j5dJDzM2fjZsq0"
+openai.organization = os.getenv("OPENAI_ORG_ID")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
@@ -17,7 +17,8 @@ def index():
             prompt=generate_prompt(code),
             temperature=0.05,
             max_tokens=256,
-            n=1
+            top_p=1.0,
+            stop=['#', '"""', '###']
         )
         return redirect(url_for("index", result=response.choices[0].text))
 
@@ -26,14 +27,6 @@ def index():
 
 
 def generate_prompt(code):
-    return """
-Start with a comment, data or code.
-Specify the language.
-Specifying libraries will help Codex understand what you want. 
-Docstrings give better result than comments
-Providing examples gives better results
-
-code: {}
-response:""".format(
-        code.capitalize()
+    return """{}""".format(
+        code
     )
