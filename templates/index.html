@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <head>
-  <title>OpenAI Quickstart</title>
+  <title>OpenAI Codex</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
 </head>
 
 <body>
   <h3>Enter description for code to generate</h3>
+  <p>Refer to
+  <a href="https://platform.openai.com/docs/guides/code/best-practices">best practices</a>
+  for code completion for best results.</p>
   <form action="/" method="post">
-    <textarea name="code" id="" cols="30" rows="10" placeholder="What should the code do" required></textarea>
+    <textarea name="code" id="" cols="30" rows="10" placeholder="#[Language]
+    What should the code do" required></textarea>
     <input type="submit" value="Generate code" />
   </form>
   {% if result %}
